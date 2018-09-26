@@ -1,0 +1,104 @@
+* {
+    font-size: medium;
+    font-family: Microsoft Yahei;
+}
+
+.title {
+    height: 55px;
+    line-height: 55px;
+    background-color: #e6e6e6;
+}
+
+.menu {
+    height: 55px;
+    width: 100%;
+    background-color: #e6e6e6;
+    position: fixed;
+    left: 0px;
+    bottom: 0px;
+    padding: 6px;
+}
+
+.menu-item {
+    float: left;
+    width: 33%;
+}
+
+.div-date {
+    margin-top: 5px;
+    line-height: 16px;
+}
+
+.div-ball {
+    margin-top: 10px;
+}
+
+.ball-item {
+    width: 32px;
+    height: 32px;
+    line-height: 28px;
+    text-align: center;
+    margin-right: 10px;
+    border: 2px solid;
+    border-radius: 100%;
+    float: left;
+}
+
+.ball-div {
+    width: 12.5%;
+    float: left;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.ball-item-red {
+    color: #F65C5C;
+    border-color: #F65C5C;
+}
+
+.ball-item-red-selected {
+    color: white;
+    background-color: #F65C5C;
+    font-weight: bold;
+}
+
+.ball-item-blue {
+    color: #3F51B5;
+    border-color: #3F51B5;
+}
+
+.ball-item-blue-selected {
+    color: white;
+    background-color: #3F51B5;
+    font-weight: bold;
+}
+
+.ball-item-ex {
+    float: none;
+    margin-right: 12px;
+    display: inline-block;
+}
+
+.pay-item {
+    border: 1px solid gainsboro;
+    height: 50px;
+    line-height: 50px;
+    margin-left: -15px;
+    margin-right: -15px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.detail-item {
+    border-top: 2px solid gainsboro;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.font-sm * {
+    font-size: 14px;
+}
+
+.number-red {
+    color: red;
+}
