@@ -2,6 +2,7 @@ package com.eason.lottert;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.ServletComponentScan;
 
 /**
  * @ 文件名:   main
@@ -10,6 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @ 描述:
  */
 @SpringBootApplication
+@ServletComponentScan
 public class LotteryMain {
     public static void main(String[] args) {
         SpringApplication.run(LotteryMain.class, args);

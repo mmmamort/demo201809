@@ -5,10 +5,10 @@
     <meta charset="UTF-8">
     <title>开奖详情</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script type="text/javascript" src="js/jquery-1.12.4.min.js" charset="utf-8"></script>
-    <script type="text/javascript" src="js/bootstrap.min.js" charset="utf-8"></script>
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="css/default.css">
+    <script type="text/javascript" src="/js/jquery-1.12.4.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/js/bootstrap.min.js" charset="utf-8"></script>
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/default.css">
 </head>
 
 <body>
@@ -40,17 +40,17 @@
         <!-- Wrapper for slides -->
         <div class="carousel-inner" role="listbox">
             <div class="item active">
-                <img src="img/p4.jpg" alt="...">
+                <img src="/img/p4.jpg" alt="...">
                 <div class="carousel-caption">
                 </div>
             </div>
             <div class="item">
-                <img src="img/p5.jpg" alt="...">
+                <img src="/img/p5.jpg" alt="...">
                 <div class="carousel-caption">
                 </div>
             </div>
             <div class="item">
-                <img src="img/p6.jpg" alt="...">
+                <img src="/img/p6.jpg" alt="...">
                 <div class="carousel-caption">
                 </div>
             </div>
@@ -71,21 +71,23 @@
     <div style="height: 64px">
         <div>
             <!--第一行-->
-            <div class="div-date">
-                <span style="float: left" class="font-sm">第2018035期</span>
-                <span style="float: right" class="font-sm"> 2018-09-21 (星期五)</span>
+            <div class="div-date font-sm">
+                <span th:text="|第${history.code}期|" style="float: left">第xxxxxxx期</span>
+                <span th:text="|${history.date.substring(0,10)} (星期${history.week})|" style="float: right"> 20xx-xx-xx (星期x)</span>
             </div>
             <!--清除浮动-->
             <div class="clearfix"></div>
             <!--第二行-->
             <div class="div-ball text-center">
-                <div class="ball-item ball-item-ex ball-item-red">02</div>
-                <div class="ball-item ball-item-ex ball-item-red">19</div>
-                <div class="ball-item ball-item-ex ball-item-red">22</div>
-                <div class="ball-item ball-item-ex ball-item-red">05</div>
-                <div class="ball-item ball-item-ex ball-item-red">11</div>
-                <div class="ball-item ball-item-ex ball-item-red">10</div>
-                <div class="ball-item ball-item-ex ball-item-blue" style="margin-right: 0px;">25</div>
+                <div class="ball-item ball-item-ex ball-item-red" th:text="${history.red.split(',')[0]}">02</div>
+                <div class="ball-item ball-item-ex ball-item-red" th:text="${history.red.split(',')[1]}">19</div>
+                <div class="ball-item ball-item-ex ball-item-red" th:text="${history.red.split(',')[2]}">22</div>
+                <div class="ball-item ball-item-ex ball-item-red" th:text="${history.red.split(',')[3]}">05</div>
+                <div class="ball-item ball-item-ex ball-item-red" th:text="${history.red.split(',')[4]}">11</div>
+                <div class="ball-item ball-item-ex ball-item-red" th:text="${history.red.split(',')[5]}">10</div>
+                <div class="ball-item ball-item-ex ball-item-blue" th:text="${history.blue}" style="margin-right: 0px;">
+                    25
+                </div>
             </div>
         </div>
     </div>
@@ -97,8 +99,12 @@
             <td class="text-center">奖金奖池</td>
         </tr>
         <tr>
-            <td class="text-center font-sm number-red">338,456,155</td>
-            <td class="text-center font-sm number-red">6,563,652</td>
+            <td class="text-center font-sm number-red"
+                th:text="${#numbers.formatInteger(history.sales,3,'COMMA')}">xxx,xxx,xxx
+            </td>
+            <td class="text-center font-sm number-red" th:text="${#numbers.formatInteger(history.poolmoney,3,'COMMA')}">
+                x,xxx,xxx
+            </td>
         </tr>
     </table>
 
@@ -110,59 +116,35 @@
             <td class="text-center">中奖注数</td>
             <td class="text-center">每注奖金</td>
         </tr>
-        <tr>
-            <td class="text-center">一等奖</td>
-            <td class="text-center font-sm">4</td>
-            <td class="text-center font-sm number-red">5,125,856</td>
-        </tr>
-        <tr>
-            <td class="text-center">二等奖</td>
-            <td class="text-center font-sm">3</td>
-            <td class="text-center font-sm number-red">4,655,323</td>
-        </tr>
-        <tr>
-            <td class="text-center">三等奖</td>
-            <td class="text-center font-sm">1</td>
-            <td class="text-center font-sm number-red">4,378,965</td>
-        </tr>
-        <tr>
-            <td class="text-center">四等奖</td>
-            <td class="text-center font-sm">5</td>
-            <td class="text-center font-sm number-red">5,236,532</td>
-        </tr>
-        <tr>
-            <td class="text-center">五等奖</td>
-            <td class="text-center font-sm">2</td>
-            <td class="text-center font-sm number-red">5,145,854</td>
-        </tr>
-        <tr>
-            <td class="text-center">六等奖</td>
-            <td class="text-center font-sm">3</td>
-            <td class="text-center font-sm number-red">4,698,968</td>
+        <tr th:each="prizegrade:${history.prizegrades}">
+            <td class="text-center" th:switch="${prizegrade.type}">
+                <span th:case="1">一等奖</span>
+                <span th:case="2">二等奖</span>
+                <span th:case="3">三等奖</span>
+                <span th:case="4">四等奖</span>
+                <span th:case="5">五等奖</span>
+                <span th:case="6">六等奖</span>
+                <span th:case="*">x等奖</span>
+            </td>
+            <td class="text-center font-sm"
+                th:text="${prizegrade.typenum ge 1000}?|${#numbers.formatInteger(prizegrade.typenum,3,'COMMA')}|:|${prizegrade.typenum}|">
+                x
+            </td>
+            <td class="text-center font-sm number-red"
+                th:text="${prizegrade.typemoney.length() gt 3}?|${#numbers.formatInteger(prizegrade.typemoney,3,'COMMA')}|:|${prizegrade.typemoney}|">
+                xxx,xxx,xxx
+            </td>
         </tr>
     </table>
 
-    <!--加一个空的div-->
-    <div style="height: 50px;"></div>
+    <div th:replace="~{common/menu :: #menuId}"></div>
 
-    <!--底层标题栏-->
-    <div class="menu">
-        <div class="text-center menu-item" style="color: #d9534f;">
-            <span class="glyphicon glyphicon-home" style="font-size: 20px"></span>
-            <p>首页</p>
-        </div>
-        <div class="text-center menu-item">
-            <span class="glyphicon glyphicon-shopping-cart" style="font-size: 20px"></span>
-            <p>选号</p>
-        </div>
-        <div class="text-center menu-item">
-            <span class="glyphicon glyphicon-user" style="font-size: 20px"></span>
-            <p>我</p>
-        </div>
-    </div>
 
 </div>
 
 </body>
 
+<script>
+    $("[name='menu1']").css("color", "#22B0A3");
+</script>
 </html>

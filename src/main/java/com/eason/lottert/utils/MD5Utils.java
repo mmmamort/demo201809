@@ -1,4 +1,4 @@
-package com.itheima.lottery.utils;
+package com.eason.lottert.utils;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

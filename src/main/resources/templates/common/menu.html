@@ -2,9 +2,27 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>menu</title>
 </head>
 <body>
-$END$
+<div id="menuId">
+    <!--空白防遮挡-->
+    <div class="row" style="height: 40px;"></div>
+    <!--底层标题栏-->
+    <div class="menu">
+        <div class="text-center menu-item" name="menu1" onclick="location.href='/'">
+            <span class="glyphicon glyphicon-home" style="font-size: 20px"></span>
+            <p>首页</p>
+        </div>
+        <div class="text-center menu-item" name="menu2">
+            <span class="glyphicon glyphicon-shopping-cart" style="font-size: 20px"></span>
+            <p>选号</p>
+        </div>
+        <div class="text-center menu-item" name="menu3" onclick="location.href='/user/person'">
+            <span class="glyphicon glyphicon-user" style="font-size: 20px"></span>
+            <p>我</p>
+        </div>
+    </div>
+</div>
 </body>
 </html>

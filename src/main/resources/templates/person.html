@@ -1,10 +1,10 @@
-<html xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 
 <head>
     <meta charset="UTF-8">
     <title>个人中心</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <script type="text/javascript" src="/js/jquery-1.12.4.min.js" charset="utf-8"></script>
     <script type="text/javascript" src="/js/bootstrap.min.js" charset="utf-8"></script>
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"/>
@@ -12,102 +12,115 @@
 </head>
 
 <body>
+<!--盒子-->
 <div class="container-fluid">
-    <!--标题栏页面-->
-    <div class="row">
-        <div class="col-xs-12 title">黑马彩票</div>
-    </div>
 
-    <!--用户信息栏-->
-    <div class="row">
-        <div class="col-xs-4">
-            <img src="/img/icon.jpg" alt="" class="img-circle img-thumbnail" style="width:80px;height:80px"/>
-        </div>
-        <div class="col-xs-8" style="padding-top: 22px;padding-left: 5px;">
-            <p style="font-size: 16px;" th:text="${session.user.username}">凯骏</p>
-            <p style="font-size: 14px;" th:text="|手机号:${session.user.mobile}|">手机号:18688889999</p>
+    <!--顶层标题栏-->
+    <div class="row ">
+        <div class="col-xs-12 title text-center">
+            <div style="width: 15%;float: left">
+                <!--返回的按钮-->
+                <span onclick="location.href='/'">&lt;返回</span>
+            </div>
+            <div style="width: 70%;float: left">
+                个人中心
+            </div>
         </div>
     </div>
 
-    <!--水平分割线-->
-    <hr/>
+    <!--账号信息-->
+    <div class="row bottom-solid align-padding-18" style="height: 132px;">
+        <!--左侧头像-->
+        <div class="col-xs-4" style="padding:0px;padding-left: 24px">
+            <img th:src="|/user/getProfile/${user.headimg}|" alt="个人头像" class="img-circle" style="height: 96px">
+        </div>
+        <!--右侧信息-->
+        <div class="col-xs-8 align-padding-14" style="padding-left: 24px">
+            <!--右侧第一行-->
+            <div class="col-xs-6 text-padding-0" style="font-weight:bold;font-size:large" th:text="${user.username}">
+                Eason
+            </div>
+            <form id="form">
+                <label class="col-xs-4 btn btn-default" style="padding: 0px;height: 25px;line-height: 23px"
+                       for="profile">修改头像</label>
+                <input id="profile" name="profile" class="hidden" type="file" onchange="updataProfile()">
+                <div class="clearfix"></div>
+            </form>
+            <!--右侧第二行-->
+            <div style="margin-top: 20px" th:text="|手机号：${user.mobile}|">手机号：13xxxxxxxxx</div>
+        </div>
+    </div>
 
-    <!--今日幸运中奖号码-->
-    <div class="row">
-        <div class="col-xs-12" style="color: red;margin-bottom: 9px;">
-            您今日幸运中奖号码为:
+
+    <!--其他-->
+    <div class="font-sm">
+
+        <!--今日幸运号码-->
+        <div class="row align-padding-10 bottom-solid" style="height: 130px;">
+            <!--第一层-->
+            <div class="col-xs-12" style="color:red;">您今日幸运中奖号码为：</div>
+            <!--第二层-->
+            <div class="col-xs-12 text-center" style="height: 55px">
+                <div class="div-ball text-center">
+                    <div class="ball-item ball-item-ex ball-item-red" th:text="${redBalls.split(',')[0]}">xx</div>
+                    <div class="ball-item ball-item-ex ball-item-red" th:text="${redBalls.split(',')[1]}">xx</div>
+                    <div class="ball-item ball-item-ex ball-item-red" th:text="${redBalls.split(',')[2]}">xx</div>
+                    <div class="ball-item ball-item-ex ball-item-red" th:text="${redBalls.split(',')[3]}">xx</div>
+                    <div class="ball-item ball-item-ex ball-item-red" th:text="${redBalls.split(',')[4]}">xx</div>
+                    <div class="ball-item ball-item-ex ball-item-red" th:text="${redBalls.split(',')[5]}">xx</div>
+                    <div class="ball-item ball-item-ex ball-item-blue" style="margin-right: 0px;" th:text="${blueBall}">
+                        xx
+                    </div>
+                </div>
+            </div>
+            <!--第三层-->
+            <div class="col-xs-12">
+                <button class="col-xs-offset-8 col-xs-4 btn btn-default" style="height: 32px;">购买立中大奖</button>
+            </div>
         </div>
 
-        <div class="col-xs-12 text-center" style="height:49px;">
-            <div class="ball-item ball-red" th:text="${red.split(',')[0]}">01</div>
-            <div class="ball-item ball-red" th:text="${red.split(',')[1]}">03</div>
-            <div class="ball-item ball-red" th:text="${red.split(',')[2]}">08</div>
-            <div class="ball-item ball-red" th:text="${red.split(',')[3]}">12</div>
-            <div class="ball-item ball-red" th:text="${red.split(',')[4]}">23</div>
-            <div class="ball-item ball-red" th:text="${red.split(',')[5]}">29</div>
-            <div class="ball-item ball-blue" th:text="${blue}">15</div>
+        <!--累计中奖-->
+        <div class="row align-padding-10 bottom-solid h41">
+            <div style="float: left;padding-left: 15px;">累计中奖次数：<span class="text-red">23次</span></div>
+            <div style="float: right;padding-right: 15px;">累计中奖金额：<span class="text-red">973万</span></div>
+            <div class="clearfix"></div>
         </div>
-
-        <div class="col-xs-offset-7 col-xs-2">
-            <button class="btn btn-default">购买立中大奖</button>
+        <!--账户余额-->
+        <div class="row align-padding-10 bottom-solid h41">
+            <span class="col-xs-12">账户余额：<span class="text-red" th:text="|${user.money}元|">1.00元</span></span>
+        </div>
+        <!--我的订单-->
+        <div class="row align-padding-10 bottom-solid h41">
+            <span class="col-xs-12">我的订单</span>
+        </div>
+        <!--基本信息-->
+        <div class="row align-padding-10 bottom-solid h41">
+            <span class="col-xs-12">基本信息</span>
+        </div>
+        <!--设置-->
+        <div class="row align-padding-10 bottom-solid h41">
+            <span class="col-xs-12">设置</span>
+        </div>
+        <div class="row align-padding-10 bottom-solid h41" onclick="location.href='/forum/'">
+            <span class="col-xs-12">论坛首页</span>
         </div>
     </div>
 
-    <!--水平分割线-->
-    <hr/>
-
-    <!--累计中奖次数-->
-    <div class="row">
-        <div class="col-xs-6">
-            累计中奖次数:<span style="color:red;font-size: 14px;">1024</span>
-        </div>
-        <div class="col-xs-6">
-            累计中奖金额:<span style="color:red">512万</span>
-        </div>
-    </div>
-    <!--水平分割线-->
-    <hr/>
-
-    <!--账户余额-->
-    <div class="row">
-        <div class="col-xs-12">
-            账户余额:<span style="color:red;font-size: 14px;" th:text="${session.user.money}">1.00元</span>
-        </div>
-    </div>
-    <!--水平分割线-->
-    <hr/>
-
-    <!--我的订单-->
-    <div class="row">
-        <div class="col-xs-12">
-            我的订单
-        </div>
-    </div>
-    <!--水平分割线-->
-    <hr/>
-
-    <!--基本信息-->
-    <div class="row">
-        <div class="col-xs-12">
-            基本信息
-        </div>
-    </div>
-    <!--水平分割线-->
-    <hr/>
-
-    <!--设置信息-->
-    <div class="row">
-        <div class="col-xs-12">
-            设置
-        </div>
-    </div>
-    <!--水平分割线-->
-    <hr/>
-
-
-    <div th:replace="~{common/menu :: #menuid}"></div>
+    <!--菜单栏-->
+    <div th:replace="~{common/menu :: #menuId}"></div>
 
 </div>
+
 </body>
 
+<script>
+    $("[name='menu3']").css("color", "#22B0A3");
+
+    function updataProfile() {
+        form.enctype = "multipart/form-data";
+        form.method = "post";
+        form.action = "/user/updataProfile";
+        form.submit();
+    }
+</script>
 </html>

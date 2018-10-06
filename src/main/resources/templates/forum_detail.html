@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>开奖详情</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script type="text/javascript" src="/js/jquery-1.12.4.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/js/bootstrap.min.js" charset="utf-8"></script>
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/default.css">
+</head>
+
+<body>
+<!--盒子-->
+<div class="container-fluid">
+
+    <!--顶层标题栏-->
+    <div class="row ">
+        <div class="col-xs-12 title text-center">
+            <div style="width: 15%;float: left">
+                <!--返回的按钮-->
+                <span onclick="location.href='/forum/'">&lt;返回</span>
+            </div>
+            <div style="width: 70%;float: left">
+                论坛主页
+            </div>
+        </div>
+    </div>
+
+    <!--帖子详情-->
+    <div class="row " style="border: 1px solid gainsboro;min-height: 80px;padding-top: 5px;">
+        <div class="col-xs-11">
+            <div style="line-height: 20px;word-break: break-all;">
+                <h4 th:text="${note.title}">测试标题</h4>
+            </div>
+            <div>
+                <span style="font-size:14px" th:text="${note.username}">xxx</span><span
+                    style="font-size:12px;margin-left:4px" th:text="${note.time}">20xx-xx-xx xx:xx:xx</span>
+            </div>
+            <div th:text="${note.content}">
+                测试内容
+            </div>
+        </div>
+    </div>
+
+    <!--回帖内容-->
+    <div style="padding: 10px 15px;border-bottom: 1px solid gainsboro;"
+         class="row">
+        <div>
+            <span style="font-size:14px" th:text="${note.username}">xxx</span><span
+                style="font-size:12px;margin-left:4px" th:text="${note.time}">20xx-xx-xx xx:xx:xx</span>
+        </div>
+        <div th:text="${note.content}">
+            测试内容
+        </div>
+    </div>
+
+    <!--分页-->
+    <!--<nav aria-label="Page navigation" class="text-center">-->
+    <!--<ul class="pagination">-->
+    <!--<li th:if="${pageNow gt 0}">-->
+    <!--&lt;!&ndash;上一页&ndash;&gt;-->
+    <!--<a th:href="|/forum/?pageNumber=${pageNow-1}|" aria-label="Previous" aria-hidden="true">«</a>-->
+    <!--</li>-->
+    <!--<li th:class="${index == pageNow+1}?'active pointer-events-none':''"-->
+    <!--th:unless="${index gt pageNow+3 && index gt 5 || index lt pageNow-1 && index lt page.getTotalPages()-4}"-->
+    <!--th:each="index:${#numbers.sequence(1,page.getTotalPages())}">-->
+    <!--&lt;!&ndash;当前页不可跳转&ndash;&gt;-->
+    <!--<a th:href="|/forum/?pageNumber=${index-1}|" th:text="${index}" style="z-index: 0">x</a>-->
+    <!--</li>-->
+    <!--<li th:if="${pageNow lt page.getTotalPages()-1}">-->
+    <!--&lt;!&ndash;下一页&ndash;&gt;-->
+    <!--<a th:href="|/forum/?pageNumber=${pageNow+1}|" aria-label="Next" aria-hidden="true">&raquo;</a>-->
+    <!--</li>-->
+    <!--</ul>-->
+    <!--</nav>-->
+</div>
+</body>
+
+</html>

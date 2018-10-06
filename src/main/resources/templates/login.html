@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 
 <head>
     <meta charset="UTF-8">
     <title>登录页面</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <script type="text/javascript" src="js/jquery-1.12.4.min.js" charset="utf-8"></script>
-    <script type="text/javascript" src="js/bootstrap.min.js" charset="utf-8"></script>
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="css/default.css">
+    <script type="text/javascript" src="/js/jquery-1.12.4.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/js/bootstrap.min.js" charset="utf-8"></script>
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/default.css">
 </head>
 
 <body>
@@ -21,7 +21,7 @@
         <div class="col-xs-12 title text-center">
             <div style="width: 15%;float: left">
                 <!--返回的按钮-->
-                <span onclick="location.href='01.主页.html'">&lt;返回</span>
+                <span onclick="location.href='/'">&lt;返回</span>
             </div>
             <div style="width: 70%;float: left">
                 登录页面
@@ -40,20 +40,21 @@
             <!--选项栏-->
             <div class="font-sm"
                  style="height: 55px;line-height: 55px;border-bottom: 2px #e6e6e6 solid;margin-bottom: 14px">
-                <span class="col-xs-6 text-center text-success">登录</span>
-                <span class="col-xs-6 text-center" onclick="location.href='03.注册页面.html'">注册</span>
+                <span class="col-xs-6 text-center" style="color: #5cb85c">登录</span>
+                <span class="col-xs-6 text-center" onclick="location.href='/user/register'">注册</span>
             </div>
             <!--登录表单-->
-            <form>
+            <form action="/user/loginUser" method="post">
                 <!--手机号-->
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="请输入手机号码…">
+                    <input type="text" name="mobile" class="form-control" placeholder="请输入手机号码…">
                 </div>
                 <!--密码-->
                 <div class="form-group">
-                    <input type="password" class="form-control" placeholder="请输入密码…">
+                    <input type="password" name="password" class="form-control" placeholder="请输入密码…">
                 </div>
                 <!--提交按钮-->
+                <div class="col-xs-12 form-group" style="color: red;font-size: 14px" th:if="${feedback}">手机号或密码错误</div>
                 <div class="form-group">
                     <button type="submit" class="btn btn-success form-control">登录</button>
                 </div>
@@ -62,7 +63,7 @@
             <!--底部标签-->
             <div class="font-sm">
                 <span>没有账号?&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-                <span class="text-success" onclick="location.href='03.注册页面.html'">去注册</span>
+                <span class="text-success" onclick="location.href='/user/register'">去注册</span>
             </div>
         </div>
 
