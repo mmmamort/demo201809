@@ -4,6 +4,8 @@ import lombok.Data;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import java.util.List;
 
 /**
  * @ 文件名:   Note
@@ -27,4 +29,7 @@ public class Note {
     private String username;
     //发帖人的ip地址
     private String addr;
+
+    @OneToMany(mappedBy = "nid")
+    private List<Comment> comments;
 }

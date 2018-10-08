@@ -1,6 +1,7 @@
 package com.eason.lottert.controller;
 
 import com.eason.lottert.bean.BallHistory;
+import com.eason.lottert.bean.Comment;
 import com.eason.lottert.bean.Note;
 import com.eason.lottert.bean.User;
 import com.eason.lottert.service.ForumService;
@@ -62,6 +63,22 @@ public class ForumController {
         forumService.uploadNote(note);
 
         return "redirect:/forum/";
+    }
+
+    @PostMapping("/comment/{nid}")
+    public String comment(@PathVariable String nid, Comment comment, HttpSession session, HttpServletRequest request) {
+        String uid = (String) session.getAttribute("uid");
+        User user = userService.findByUid(uid);
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        comment.setNid(nid);
+        comment.setTime(dateFormat.format(new Date()));
+        comment.setUsername(user.getUsername());
+        comment.setAddr(request.getRemoteAddr());
+
+        forumService.uploadComment(comment);
+
+        return "redirect:/forum/note?nid=" + nid;
     }
 
     @GetMapping("/note")

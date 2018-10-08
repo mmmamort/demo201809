@@ -1,6 +1,8 @@
 package com.eason.lottert.controller;
 
 import com.eason.lottert.bean.BallHistory;
+import com.eason.lottert.bean.Note;
+import com.eason.lottert.service.ForumService;
 import com.eason.lottert.service.HistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -24,12 +26,17 @@ public class IndexController {
 
     @Autowired
     private HistoryService historyService;
+    @Autowired
+    private ForumService forumService;
 
     @GetMapping("/")
     public String index(Model model, Integer pageNumber) {
         Page<BallHistory> page = historyService.findByPage(pageNumber);
         model.addAttribute("page", page);
         model.addAttribute("pageNow", page.getNumber());
+
+        Note note = forumService.findTheLast();
+        model.addAttribute("note", note);
 
 //        List<BallHistory> histories = historyService.findAll();
 //        model.addAttribute("histories", histories);

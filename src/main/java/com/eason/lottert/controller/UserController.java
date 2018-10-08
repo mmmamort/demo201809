@@ -7,6 +7,7 @@ import com.eason.lottert.service.UserService;
 import com.eason.lottert.utils.BallUtils;
 import com.eason.lottert.utils.JGSMSUtils;
 import com.eason.lottert.utils.UUIDUtils;
+import com.eason.lottert.utils.UploadUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -20,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
@@ -92,10 +95,16 @@ public class UserController {
     }
 
     @PostMapping("/loginUser")
-    public String loginUser(String mobile, String password, Model model, HttpSession session) {
+    public String loginUser(String mobile, String password, Model model, HttpSession session, HttpServletResponse response) {
         User user = userService.login(mobile, password);
         if (user != null) {
             session.setAttribute("uid", user.getUid());
+
+            Cookie cookie = new Cookie("autologin", mobile + "#" + password);
+            cookie.setMaxAge(60 * 60 * 24 * 7);
+            cookie.setPath("/");
+            response.addCookie(cookie);
+
             return "redirect:/";
         } else {
             model.addAttribute("feedback", true);
@@ -122,18 +131,26 @@ public class UserController {
 
     @PostMapping("/updataProfile")
     public String updataProfile(MultipartFile profile, HttpSession session) {
-
         try {
             String uid = (String) session.getAttribute("uid");
-
             User user = userService.findByUid(uid);
-            user.setHeadimg(profile.getOriginalFilename());
 
-            File file = new File("G:/资源/" + user.getHeadimg());
+            String originalFilename = profile.getOriginalFilename();
+            String filename = UploadUtils.getUUIDName(originalFilename);
+            String randomDir = UploadUtils.getDir();
+            String dir = "G:/资源/uploadfiles" + randomDir;
 
-            profile.transferTo(file);
+            //空路径判断
+            File fileDir = new File(dir);
+            if (!fileDir.exists()) {
+                fileDir.mkdirs();
+            }
 
+            profile.transferTo(new File(dir, filename));
+
+            user.setHeadimg(randomDir + "/" + filename);
             userService.updata(user);
+
             System.out.println("profile upload success");
         } catch (IOException e) {
             System.out.println("profile upload fail");
@@ -147,11 +164,11 @@ public class UserController {
     ResourceLoader resourceLoader;
 
     //    /getImg/'+${person.headImg}
-    @GetMapping("/getProfile/{headimg:.+}")
-    public ResponseEntity<Resource> getProfile(@PathVariable String headimg) {
-        Path path = Paths.get("G:/资源/", headimg);
+    @GetMapping("/getProfile/{dir1}/{dir2}/{headimg:.+}")
+    public ResponseEntity<Resource> getProfile(@PathVariable String dir1, @PathVariable String dir2, @PathVariable String headimg) {
+        Path path = Paths.get("G:/资源/uploadfiles/" + dir1 + "/" + dir2, headimg);
 
-        Resource resource = resourceLoader.getResource("file:" + path.toString());
+        Resource resource = resourceLoader.getResource("file:" + path);
 
         return ResponseEntity.ok(resource);
     }

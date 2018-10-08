@@ -6,67 +6,10 @@
     <title>选号页面</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <script type="text/javascript" src="js/jquery-1.12.4.min.js" charset="utf-8"></script>
-    <script type="text/javascript" src="js/bootstrap.min.js" charset="utf-8"></script>
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="css/default.css">
-
-    <script>
-        //红球部分
-        $(function () {
-            $(".ball-item-red").click(function () {
-                //清除样式
-                if ($(this).is(".ball-item-red-selected")) {
-                    $(this).removeClass("ball-item-red-selected")
-                    return
-                }
-                //限定数量
-                var len = $(".ball-item-red-selected").length
-                if (len > 5) {
-                    alert("最多只能选6个红球")
-                    return
-                }
-                //添加样式
-                $(this).addClass("ball-item-red-selected")
-            })
-        })
-        //蓝球部分
-        $(function () {
-            $(".ball-item-blue").click(function () {
-                //清除样式
-                if ($(this).is(".ball-item-blue-selected")) {
-                    $(this).removeClass("ball-item-blue-selected")
-                    return
-                }
-                //清除多个选中样式
-                $(".ball-item-blue").removeClass("ball-item-blue-selected")
-                //添加样式
-                $(this).addClass("ball-item-blue-selected")
-            })
-        })
-
-        function randomOne() {
-            //清除红球样式
-            $(".ball-item-red").removeClass("ball-item-red-selected")
-            //随机选取6个红球
-            while ($(".ball-item-red-selected").length < 6) {
-                //随机数
-                var index = Math.floor(Math.random() * 33)
-                //获取红球对象
-                var redBall = $(".ball-item-red").get(index)
-                //添加样式
-                $(redBall).addClass("ball-item-red-selected")
-            }
-            //清除蓝球样式
-            $(".ball-item-blue").removeClass("ball-item-blue-selected");
-            //随机选取1个蓝球
-            index = Math.floor(Math.random() * 16)
-            //获取红球对象
-            var blueBall = $(".ball-item-blue").get(index)
-            //添加样式
-            $(blueBall).addClass("ball-item-blue-selected")
-        }
-    </script>
+    <script type="text/javascript" src="/js/jquery-1.12.4.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/js/bootstrap.min.js" charset="utf-8"></script>
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/default.css">
 </head>
 
 <body>
@@ -78,7 +21,7 @@
         <div class="col-xs-12 title text-center">
             <div style="width: 15%;float: left">
                 <!--返回的按钮-->
-                <span onclick="location.href='01.主页.html'">&lt;返回</span>
+                <span onclick="location.href='/'">&lt;返回</span>
             </div>
             <div style="width: 70%;float: left">
                 选号页面
@@ -208,7 +151,6 @@
         <div class="ball-div">
             <div class="ball-item ball-item-red">33</div>
         </div>
-
     </div>
 
     <!--清除格式-->
@@ -267,18 +209,20 @@
     </div>
 
     <!--添加按钮-->
-    <button type="button" class="btn btn-default pull-right" style="margin-top: 10px;">添加</button>
+    <button type="button" class="btn btn-default pull-right" style="margin-top: 10px;"
+            onclick="selectX()">添加
+    </button>
 
     <!--机选按钮-->
     <div class="pull-right" style="width: 100%; margin-top: 10px;">
-        <button type="button" class="btn btn-default pull-right" onclick="randomOne()">机选幸运号</button>
+        <button type="button" class="btn btn-default pull-right" onclick="randomX()">机选幸运号</button>
 
-        <select class="form-control" style="float: right;width: 18%;">
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
+        <select id="select" class="form-control" style="float: right;width: 18%;">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
         </select>
     </div>
 
@@ -292,18 +236,133 @@
     <div class="menu">
         <div class="text-center menu-item" style="width: 50%">
             <span class="glyphicon glyphicon-shopping-cart" style="font-size: 20px"
-                  onclick="location.href='07.购物车页面.html'"></span>
+                  onclick="location.href='/select/cart'">
+            </span><span id="badge" class="badge"
+                         style="background-color: red;position: absolute;top: 0px;"></span>
             <p>选号</p>
         </div>
-        <div class="text-center menu-item" style="width: 50%">
+        <div onclick="location.href='/order/'" class="text-center menu-item" style="width: 50%">
             <span class="glyphicon glyphicon-barcode font-sm" style="font-size: 20px"
-                  onclick="location.href='07.购物车页面.html'"></span>
+                  onclick="location.href='/select/cart'"></span>
             <p>立即投注</p>
         </div>
     </div>
 
 </div>
+<script>
+    //红球部分
 
+    $(function () {
+        $(".ball-item-red").click(function () {
+            //清除样式
+            if ($(this).is(".ball-item-red-selected")) {
+                $(this).removeClass("ball-item-red-selected")
+                return
+            }
+            //限定数量
+            var len = $(".ball-item-red-selected").length
+            if (len > 5) {
+                alert("最多只能选6个红球")
+                return
+            }
+            //添加样式
+            $(this).addClass("ball-item-red-selected")
+        })
+    })
+    //蓝球部分
+
+    $(function () {
+        $(".ball-item-blue").click(function () {
+            //清除样式
+            if ($(this).is(".ball-item-blue-selected")) {
+                $(this).removeClass("ball-item-blue-selected")
+                return
+            }
+            //清除多个选中样式
+            $(".ball-item-blue").removeClass("ball-item-blue-selected")
+            //添加样式
+            $(this).addClass("ball-item-blue-selected")
+        })
+    })
+
+    function randomOne() {
+        //清除红球样式
+        $(".ball-item-red").removeClass("ball-item-red-selected")
+        //随机选取6个红球
+        while ($(".ball-item-red-selected").length < 6) {
+            //随机数
+            var index = Math.floor(Math.random() * 33)
+            //获取红球对象
+            var redBall = $(".ball-item-red").get(index)
+            //添加样式
+            $(redBall).addClass("ball-item-red-selected")
+        }
+
+        //清除蓝球样式
+        $(".ball-item-blue").removeClass("ball-item-blue-selected");
+        //随机选取1个蓝球
+        index = Math.floor(Math.random() * 16)
+        //获取红球对象
+        var blueBall = $(".ball-item-blue").get(index)
+        //添加样式
+        $(blueBall).addClass("ball-item-blue-selected")
+    }
+
+    function getResult() {
+        var red = "";
+        $(".ball-item-red-selected").each(function (i, ball) {
+            var redball = $(ball).text();
+            red += "," + redball
+        })
+
+        red = red.substr(1);
+
+        var blue = $(".ball-item-blue-selected").text();
+        return {red: red, blue: blue};
+    }
+
+    function randomX() {
+        var value = $("#select").val();
+
+        var result = new Array();
+
+        for (var i = 0; i < value; i++) {
+            randomOne();
+            result[result.length] = getResult();
+        }
+        console.log(result);
+
+        sendToController(result);
+    }
+
+    function selectX() {
+        if ($(".ball-item-red-selected").length < 6 || $(".ball-item-blue-selected").length < 1) {
+            alert("请选择6个红球，1个篮球")
+            return;
+        }
+
+        var value = $("#select").val();
+
+        var result = new Array();
+
+        for (var i = 0; i < value; i++) {
+            result[result.length] = getResult();
+        }
+        console.log(result);
+
+        sendToController(result);
+    }
+
+    function sendToController(content) {
+        $.get("/select/add", {ballArr: JSON.stringify(content)}, function (data) {
+            $("#badge").text(data);
+        })
+    }
+
+    $.get("/select/showCount", function (data) {
+        $("#badge").text(data);
+    })
+</script>
 </body>
 
 </html>

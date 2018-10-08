@@ -1,6 +1,6 @@
 package com.eason.lottert.dao;
 
-import com.eason.lottert.bean.Note;
+import com.eason.lottert.bean.Comment;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -9,8 +9,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @ 时间:    2018/9/30 17:04
  * @ 描述:
  */
-public interface ForumDao extends JpaRepository<Note, String> {
-    Note findByNid(String nid);
-
-    Note findTopByOrderByTimeDesc();
+public interface CommentDao extends JpaRepository<Comment, String> {
 }

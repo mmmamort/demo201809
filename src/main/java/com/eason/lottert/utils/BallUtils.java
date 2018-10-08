@@ -26,6 +26,6 @@ public class BallUtils {
 
     public static String blueBall() {
         int blueBall = new Random().nextInt(16) + 1;
-        return blueBall + "";
+        return String.format("%02d", blueBall);
     }
 }

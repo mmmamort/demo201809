@@ -1,6 +1,8 @@
 package com.eason.lottert.service.Impl;
 
+import com.eason.lottert.bean.Comment;
 import com.eason.lottert.bean.Note;
+import com.eason.lottert.dao.CommentDao;
 import com.eason.lottert.dao.ForumDao;
 import com.eason.lottert.service.ForumService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +15,6 @@ import org.springframework.stereotype.Service;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Comparator;
 import java.util.List;
 
@@ -25,6 +26,10 @@ import java.util.List;
  */
 @Service
 public class ForumServiceImpl implements ForumService {
+
+    @Autowired
+    private CommentDao commentDao;
+
     @Autowired
     private ForumDao forumDao;
 
@@ -71,5 +76,15 @@ public class ForumServiceImpl implements ForumService {
     @Override
     public Note findByNid(String nid) {
         return forumDao.findByNid(nid);
+    }
+
+    @Override
+    public void uploadComment(Comment comment) {
+        commentDao.save(comment);
+    }
+
+    @Override
+    public Note findTheLast() {
+        return forumDao.findTopByOrderByTimeDesc();
     }
 }

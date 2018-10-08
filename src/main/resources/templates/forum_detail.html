@@ -45,37 +45,51 @@
     </div>
 
     <!--回帖内容-->
-    <div style="padding: 10px 15px;border-bottom: 1px solid gainsboro;"
+    <div th:each="comment:${note.comments}" style="padding: 10px 15px;border-bottom: 1px solid gainsboro;"
          class="row">
         <div>
-            <span style="font-size:14px" th:text="${note.username}">xxx</span><span
-                style="font-size:12px;margin-left:4px" th:text="${note.time}">20xx-xx-xx xx:xx:xx</span>
+            <span style="font-size:14px" th:text="${comment.username}">xxx</span><span
+                style="font-size:12px;margin-left:4px" th:text="${comment.time}">20xx-xx-xx xx:xx:xx</span>
         </div>
-        <div th:text="${note.content}">
+        <div th:text="${comment.content}">
             测试内容
         </div>
     </div>
 
-    <!--分页-->
-    <!--<nav aria-label="Page navigation" class="text-center">-->
-    <!--<ul class="pagination">-->
-    <!--<li th:if="${pageNow gt 0}">-->
-    <!--&lt;!&ndash;上一页&ndash;&gt;-->
-    <!--<a th:href="|/forum/?pageNumber=${pageNow-1}|" aria-label="Previous" aria-hidden="true">«</a>-->
-    <!--</li>-->
-    <!--<li th:class="${index == pageNow+1}?'active pointer-events-none':''"-->
-    <!--th:unless="${index gt pageNow+3 && index gt 5 || index lt pageNow-1 && index lt page.getTotalPages()-4}"-->
-    <!--th:each="index:${#numbers.sequence(1,page.getTotalPages())}">-->
-    <!--&lt;!&ndash;当前页不可跳转&ndash;&gt;-->
-    <!--<a th:href="|/forum/?pageNumber=${index-1}|" th:text="${index}" style="z-index: 0">x</a>-->
-    <!--</li>-->
-    <!--<li th:if="${pageNow lt page.getTotalPages()-1}">-->
-    <!--&lt;!&ndash;下一页&ndash;&gt;-->
-    <!--<a th:href="|/forum/?pageNumber=${pageNow+1}|" aria-label="Next" aria-hidden="true">&raquo;</a>-->
-    <!--</li>-->
-    <!--</ul>-->
-    <!--</nav>-->
+    <!--发帖功能-->
+    <div style="height: 20px;"></div>
+    <div class="row" style="position: fixed;bottom: 0;width: 100%;">
+
+        <form th:action="|/forum/comment/${note.nid}|" method="post">
+            <div id="input_div" class="hidden">
+                <span class="glyphicon glyphicon-remove-circle"
+                      style="float:right;width: 10%;font-size: 34px;color: #ac2925;" id="close_form"></span>
+                <!--输入框-->
+                <textarea class="form-control" name="content" style="height: 100px;" placeholder="请输入内容..."></textarea>
+            </div>
+            <!--确认发表的按钮-->
+            <button type="submit" class="form-control btn btn-success">发表</button>
+        </form>
+    </div>
 </div>
+<script>
+    $("#close_form").click(function () {
+        $("#input_div").addClass("hidden");
+        $("#input_div").removeClass("show");
+    });
+    $("form").submit(function () {
+        var isShow = $("#input_div").is(".show");
+
+        if (isShow) {
+            return true
+        } else {
+            $("#input_div").removeClass("hidden");
+            $("#input_div").addClass("show");
+
+            return false;
+        }
+    });
+</script>
 </body>
 
 </html>

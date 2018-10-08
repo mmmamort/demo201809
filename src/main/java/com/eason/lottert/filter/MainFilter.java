@@ -12,13 +12,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * @ 文件名:   filter
+ * @ 文件名:   MainFilter
  * @ 创建者:   Eason
  * @ 时间:    2018/9/30 8:32
  * @ 描述:
  */
-@WebFilter(urlPatterns = {"/forum/add", "/user/person"})
-public class filter implements Filter {
+@WebFilter(urlPatterns = {"/forum/comment", "/forum/add", "/user/person", "/order/*"})
+public class MainFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
 
