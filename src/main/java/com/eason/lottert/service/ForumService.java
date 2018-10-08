@@ -1,5 +1,6 @@
 package com.eason.lottert.service;
 
+import com.eason.lottert.bean.Comment;
 import com.eason.lottert.bean.Note;
 import org.springframework.data.domain.Page;
 
@@ -19,4 +20,8 @@ public interface ForumService {
     Page<Note> findByPage(Integer pageNumber);
 
     Note findByNid(String nid);
+
+    void uploadComment(Comment comment);
+
+    Note findTheLast();
 }
