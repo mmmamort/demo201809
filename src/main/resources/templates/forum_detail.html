@@ -1,20 +1,4 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <title>开奖详情</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script type="text/javascript" src="/js/jquery-1.12.4.min.js" charset="utf-8"></script>
-    <script type="text/javascript" src="/js/bootstrap.min.js" charset="utf-8"></script>
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="/css/default.css">
-</head>
-
-<body>
-<!--盒子-->
-<div class="container-fluid">
-
+<div ng-controller="forumDetailCtrl">
     <!--顶层标题栏-->
     <div class="row ">
         <div class="col-xs-12 title text-center">
@@ -32,64 +16,40 @@
     <div class="row " style="border: 1px solid gainsboro;min-height: 80px;padding-top: 5px;">
         <div class="col-xs-11">
             <div style="line-height: 20px;word-break: break-all;">
-                <h4 th:text="${note.title}">测试标题</h4>
+                <h4>{{note.title}}</h4>
             </div>
             <div>
-                <span style="font-size:14px" th:text="${note.username}">xxx</span><span
-                    style="font-size:12px;margin-left:4px" th:text="${note.time}">20xx-xx-xx xx:xx:xx</span>
+                <span style="font-size:14px">{{note.username}}</span>
+                <span style="font-size:12px;margin-left:4px">{{note.time}}</span>
             </div>
-            <div th:text="${note.content}">
-                测试内容
-            </div>
+            <div>{{note.content}}</div>
         </div>
     </div>
 
     <!--回帖内容-->
-    <div th:each="comment:${note.comments}" style="padding: 10px 15px;border-bottom: 1px solid gainsboro;"
+    <div ng-repeat="comment in note.comments" style="padding: 10px 15px;border-bottom: 1px solid gainsboro;"
          class="row">
         <div>
-            <span style="font-size:14px" th:text="${comment.username}">xxx</span><span
-                style="font-size:12px;margin-left:4px" th:text="${comment.time}">20xx-xx-xx xx:xx:xx</span>
+            <span style="font-size:14px">{{comment.username}}</span><span
+                style="font-size:12px;margin-left:4px">{{comment.time}}</span>
         </div>
-        <div th:text="${comment.content}">
-            测试内容
-        </div>
+        <div>{{comment.content}}</div>
     </div>
 
     <!--发帖功能-->
     <div style="height: 20px;"></div>
     <div class="row" style="position: fixed;bottom: 0;width: 100%;">
 
-        <form th:action="|/forum/comment/${note.nid}|" method="post">
+        <form ng-submit="submit(comment)">
             <div id="input_div" class="hidden">
                 <span class="glyphicon glyphicon-remove-circle"
-                      style="float:right;width: 10%;font-size: 34px;color: #ac2925;" id="close_form"></span>
+                      style="float:right;width: 10%;font-size: 34px;color: #ac2925;" id="close_form" ng-click="close()"></span>
                 <!--输入框-->
-                <textarea class="form-control" name="content" style="height: 100px;" placeholder="请输入内容..."></textarea>
+                <textarea class="form-control" ng-model="comment.content" style="height: 100px;"
+                          placeholder="请输入内容..."></textarea>
             </div>
             <!--确认发表的按钮-->
             <button type="submit" class="form-control btn btn-success">发表</button>
         </form>
     </div>
 </div>
-<script>
-    $("#close_form").click(function () {
-        $("#input_div").addClass("hidden");
-        $("#input_div").removeClass("show");
-    });
-    $("form").submit(function () {
-        var isShow = $("#input_div").is(".show");
-
-        if (isShow) {
-            return true
-        } else {
-            $("#input_div").removeClass("hidden");
-            $("#input_div").addClass("show");
-
-            return false;
-        }
-    });
-</script>
-</body>
-
-</html>

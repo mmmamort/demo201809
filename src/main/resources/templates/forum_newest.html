@@ -1,0 +1,16 @@
+<div ng-controller="forumNewestCtrl">
+    <!--最新帖子-->
+    <div ng-click="redirect('forumDetail',{nid:note.nid,note:note})" class="row bottom-solid align-padding-10">
+        <!--第一行-->
+        <div class="col-xs-12">
+            <!--用户名-->
+            <span>{{note.username}}</span>
+            <!--发帖时间-->
+            <span>{{note.time}}</span>
+        </div>
+        <!--第二行内容-->
+        <div class="col-xs-12" style="margin-top: 5px">{{note.title}}</div>
+        <!--第二行内容-->
+        <div class="col-xs-12" style="margin-top: 5px">{{note.content}}</div>
+    </div>
+</div>

@@ -25,7 +25,7 @@ public class BallHistoryController {
     }
 
     @RequestMapping("/ball_history_detail")
-    public BallHistory detail(String code) {
+    public BallHistory getBallHistoryDetail(String code) {
         return historyService.find(code);
     }
 }
