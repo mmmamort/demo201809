@@ -1,26 +1,12 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <title>开奖详情</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script type="text/javascript" src="/js/jquery-1.12.4.min.js" charset="utf-8"></script>
-    <script type="text/javascript" src="/js/bootstrap.min.js" charset="utf-8"></script>
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="/css/default.css">
-</head>
-
-<body>
 <!--盒子-->
-<div class="container-fluid">
+<div ng-controller="detailCtrl">
 
     <!--顶层标题栏-->
     <div class="row ">
         <div class="col-xs-12 title text-center">
-            <div style="width: 15%;float: left">
+            <div style="width: 15%;float: left" ng-click="redirect('index')">
                 <!--返回的按钮-->
-                <span onclick="location.href='/'">&lt;返回</span>
+                <span>&lt;返回</span>
             </div>
             <div style="width: 70%;float: left">
                 开奖详情
@@ -72,21 +58,21 @@
         <div>
             <!--第一行-->
             <div class="div-date font-sm">
-                <span th:text="|第${history.code}期|" style="float: left">第xxxxxxx期</span>
-                <span th:text="|${history.date.substring(0,10)} (星期${history.week})|" style="float: right"> 20xx-xx-xx (星期x)</span>
+                <span style="float: left">第{{historyDetail.code}}期</span>
+                <span style="float: right"> {{historyDetail.date.substring(0,10)}} (星期{{historyDetail.week}})</span>
             </div>
             <!--清除浮动-->
             <div class="clearfix"></div>
             <!--第二行-->
             <div class="div-ball text-center">
-                <div class="ball-item ball-item-ex ball-item-red" th:text="${history.red.split(',')[0]}">02</div>
-                <div class="ball-item ball-item-ex ball-item-red" th:text="${history.red.split(',')[1]}">19</div>
-                <div class="ball-item ball-item-ex ball-item-red" th:text="${history.red.split(',')[2]}">22</div>
-                <div class="ball-item ball-item-ex ball-item-red" th:text="${history.red.split(',')[3]}">05</div>
-                <div class="ball-item ball-item-ex ball-item-red" th:text="${history.red.split(',')[4]}">11</div>
-                <div class="ball-item ball-item-ex ball-item-red" th:text="${history.red.split(',')[5]}">10</div>
-                <div class="ball-item ball-item-ex ball-item-blue" th:text="${history.blue}" style="margin-right: 0px;">
-                    25
+                <div class="ball-item ball-item-ex ball-item-red">{{historyDetail.red.split(',')[0]}}</div>
+                <div class="ball-item ball-item-ex ball-item-red">{{historyDetail.red.split(',')[1]}}</div>
+                <div class="ball-item ball-item-ex ball-item-red">{{historyDetail.red.split(',')[2]}}</div>
+                <div class="ball-item ball-item-ex ball-item-red">{{historyDetail.red.split(',')[3]}}</div>
+                <div class="ball-item ball-item-ex ball-item-red">{{historyDetail.red.split(',')[4]}}</div>
+                <div class="ball-item ball-item-ex ball-item-red">{{historyDetail.red.split(',')[5]}}</div>
+                <div class="ball-item ball-item-ex ball-item-blue" style="margin-right: 0px;">
+                    {{historyDetail.blue}}
                 </div>
             </div>
         </div>
@@ -99,12 +85,8 @@
             <td class="text-center">奖金奖池</td>
         </tr>
         <tr>
-            <td class="text-center font-sm number-red"
-                th:text="${#numbers.formatInteger(history.sales,3,'COMMA')}">xxx,xxx,xxx
-            </td>
-            <td class="text-center font-sm number-red" th:text="${#numbers.formatInteger(history.poolmoney,3,'COMMA')}">
-                x,xxx,xxx
-            </td>
+            <td class="text-center font-sm number-red" ng-bind="historyDetail.sales | currency:'￥':3"></td>
+            <td class="text-center font-sm number-red" ng-bind="historyDetail.poolmoney | currency:'￥':3"></td>
         </tr>
     </table>
 
@@ -116,35 +98,26 @@
             <td class="text-center">中奖注数</td>
             <td class="text-center">每注奖金</td>
         </tr>
-        <tr th:each="prizegrade:${history.prizegrades}">
-            <td class="text-center" th:switch="${prizegrade.type}">
-                <span th:case="1">一等奖</span>
-                <span th:case="2">二等奖</span>
-                <span th:case="3">三等奖</span>
-                <span th:case="4">四等奖</span>
-                <span th:case="5">五等奖</span>
-                <span th:case="6">六等奖</span>
-                <span th:case="*">x等奖</span>
+        <tr ng-repeat="prizegrade in historyDetail.prizegrades">
+            <td class="text-center" ng-switch="prizegrade.type">
+                <span ng-switch-when="1">一等奖</span>
+                <span ng-switch-when="2">二等奖</span>
+                <span ng-switch-when="3">三等奖</span>
+                <span ng-switch-when="4">四等奖</span>
+                <span ng-switch-when="5">五等奖</span>
+                <span ng-switch-when="6">六等奖</span>
+                <span ng-switch-when="*">x等奖</span>
             </td>
-            <td class="text-center font-sm"
-                th:text="${prizegrade.typenum ge 1000}?|${#numbers.formatInteger(prizegrade.typenum,3,'COMMA')}|:|${prizegrade.typenum}|">
-                x
-            </td>
-            <td class="text-center font-sm number-red"
-                th:text="${prizegrade.typemoney.length() gt 3}?|${#numbers.formatInteger(prizegrade.typemoney,3,'COMMA')}|:|${prizegrade.typemoney}|">
-                xxx,xxx,xxx
-            </td>
+            <td class="text-center font-sm" ng-bind="prizegrade.typenum | currency:'':0"></td>
+            <td class="text-center font-sm number-red" ng-bind="prizegrade.typemoney | currency:'￥':3"></td>
         </tr>
     </table>
 
     <div th:replace="~{common/menu :: #menuId}"></div>
 
-
 </div>
 
-</body>
 
-<script>
-    $("[name='menu1']").css("color", "#22B0A3");
-</script>
-</html>
+<!--<script>-->
+<!---->
+<!--</script>-->

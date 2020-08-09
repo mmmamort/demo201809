@@ -12,8 +12,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.persistence.criteria.Order;
+import javax.servlet.http.HttpServletRequest;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @ 文件名:   TestController
@@ -33,7 +35,8 @@ public class IndexController {
     public String index(Model model, Integer pageNumber) {
         Page<BallHistory> page = historyService.findByPage(pageNumber);
         model.addAttribute("page", page);
-        model.addAttribute("pageNow", page.getNumber());
+        int number = page.getNumber();
+        model.addAttribute("pageNow", number);
 
         Note note = forumService.findTheLast();
         model.addAttribute("note", note);
@@ -43,10 +46,15 @@ public class IndexController {
         return "index.html";
     }
 
-    @GetMapping("/detail")
-    public String detail(String code, Model model) {
-        BallHistory history = historyService.find(code);
-        model.addAttribute("history", history);
-        return "detail.html";
-    }
+//    @GetMapping("/detail")
+//    public String detail(HttpServletRequest request, String code, Model model) {
+//        for (Map.Entry<String, String[]> entry : request.getParameterMap().entrySet()) {
+//            System.out.println(entry.getKey() + " : " + entry.getValue());
+//        }
+//
+//        System.out.println(code);
+////        BallHistory history = historyService.find(code);
+////        model.addAttribute("history", history);
+//        return "detail.html";
+//    }
 }

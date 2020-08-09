@@ -1,0 +1,48 @@
+<div ng-controller="pageCtrl">
+    <!--往期详情-->
+    <div ng-repeat="history in historyPage" class="row" style="height: 72px;border-bottom: 2px solid gainsboro;"
+         ng-click="redirect('detail',{code:history.code,pageNumber:pageNow})">
+        <!--左侧信息-->
+        <div class="col-xs-11">
+            <!--第一行-->
+            <div class="div-date">
+                <span>{{history.code}}</span>
+                <span style="font-size: 12px">{{history.date.substring(0,10)}} (星期{{history.week}})</span>
+            </div>
+            <!--第二行-->
+            <div class="div-ball">
+                <div class="ball-item ball-item-red">{{history.red.split(',')[0]}}</div>
+                <div class="ball-item ball-item-red">{{history.red.split(',')[1]}}</div>
+                <div class="ball-item ball-item-red">{{history.red.split(',')[2]}}</div>
+                <div class="ball-item ball-item-red">{{history.red.split(',')[3]}}</div>
+                <div class="ball-item ball-item-red">{{history.red.split(',')[4]}}</div>
+                <div class="ball-item ball-item-red">{{history.red.split(',')[5]}}</div>
+                <div class="ball-item ball-item-blue">{{history.blue}}</div>
+            </div>
+        </div>
+        <!-- 右侧箭头 > -->
+        <div class="col-xs-1" style="padding-top: 24px;padding-left: 0px;">
+            <span class="glyphicon glyphicon-menu-right"></span>
+        </div>
+        <!--清除浮动-->
+        <div class="clearfix"></div>
+    </div>
+
+    <!--分页-->
+    <nav aria-label="Page navigation" class="text-center">
+        <ul class="pagination">
+            <li ng-if="pageNow != 0">
+                <!--上一页-->
+                <a ng-click="redirect('page',{pageNumber:pageNow-1})" aria-label=" Previous" aria-hidden="true">«</a>
+            </li>
+            <li ng-class="index == pageNow+1 ? 'active pointer-events-none' : ''" ng-repeat="index in liArr">
+                <!--当前页不可跳转-->
+                <a ng-click="redirect('page',{pageNumber:index-1})" style="z-index: 0">{{index}}</a>
+            </li>
+            <li ng-if="pageNow < (pages.totalPages-1)">
+                <!--下一页-->
+                <a ng-click="redirect('page',{pageNumber:pageNow+1})" aria-label="Next" aria-hidden="true">&raquo;</a>
+            </li>
+        </ul>
+    </nav>
+</div>

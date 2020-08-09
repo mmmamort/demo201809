@@ -40,17 +40,7 @@ public class HistoryServiceImpl implements HistoryService {
 
     @Override
     public Page<BallHistory> findByPage(Integer pageNumber) {
-
-        if (pageNumber == null) {
-            pageNumber = 0;
-        }
-
-        int size = 5;
-
-        Sort sort = new Sort(Direction.DESC, "code");
-
-        Pageable pageable = new PageRequest(pageNumber, size, sort);
-        return indexDao.findAll(pageable);
+        return indexDao.findAll(new PageRequest(pageNumber == null ? 0 : pageNumber, 5, new Sort(Direction.DESC, "code")));
     }
 
 }

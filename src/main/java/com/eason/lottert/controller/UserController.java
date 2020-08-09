@@ -1,11 +1,12 @@
 package com.eason.lottert.controller;
 
-import cn.jiguang.common.resp.APIConnectionException;
-import cn.jiguang.common.resp.APIRequestException;
+//import cn.jiguang.common.resp.APIConnectionException;
+//import cn.jiguang.common.resp.APIRequestException;
+
 import com.eason.lottert.bean.User;
 import com.eason.lottert.service.UserService;
 import com.eason.lottert.utils.BallUtils;
-import com.eason.lottert.utils.JGSMSUtils;
+//import com.eason.lottert.utils.JGSMSUtils;
 import com.eason.lottert.utils.UUIDUtils;
 import com.eason.lottert.utils.UploadUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,11 +57,11 @@ public class UserController {
 //            return "/register";
 //        }
         String msgId = (String) session.getAttribute("msgId");
-        boolean status = JGSMSUtils.sendValidSms(msgId, code);
-        if (!status) {
-            model.addAttribute("smsFeedback", "验证码错误");
-            return "/register";
-        }
+//        boolean status = JGSMSUtils.sendValidSms(msgId, code);
+//        if (!status) {
+//            model.addAttribute("smsFeedback", "验证码错误");
+//            return "/register";
+//        }
 
         user.setUid(UUIDUtils.getId());
         user.setState(0);
@@ -74,16 +75,16 @@ public class UserController {
     @GetMapping("/sendSMS")
     @ResponseBody
     public String sendSMS(String mobile, HttpSession session) {
-        try {
-            String msgId = JGSMSUtils.sendSms(mobile);
-            session.setAttribute("msgId", msgId);
-        } catch (APIConnectionException e) {
-            System.out.println(e);
-            return "发送失败";
-        } catch (APIRequestException e) {
-            System.out.println(e);
-            return "发送失败";
-        }
+//        try {
+//            String msgId = JGSMSUtils.sendSms(mobile);
+//            session.setAttribute("msgId", msgId);
+//        } catch (APIConnectionException e) {
+//            System.out.println(e);
+//            return "发送失败";
+//        } catch (APIRequestException e) {
+//            System.out.println(e);
+//            return "发送失败";
+//        }
         return "发送成功";
     }
 
@@ -138,6 +139,7 @@ public class UserController {
             String originalFilename = profile.getOriginalFilename();
             String filename = UploadUtils.getUUIDName(originalFilename);
             String randomDir = UploadUtils.getDir();
+            //服务器端头像存储位置
             String dir = "G:/资源/uploadfiles" + randomDir;
 
             //空路径判断
